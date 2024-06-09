@@ -18,12 +18,17 @@ document.querySelector('form').addEventListener('submit', function (e) {
 });
 
 function loadTable(file) {
+    // Create FormData object to store form data
+    var formData = new FormData();
+
+    // Append action and file parameters to FormData
+    formData.append('action', 'load');
+    formData.append('file', file);
+
+    // Send POST request with FormData
     fetch('process.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ action: 'load', file: file })
+        body: formData
     })
     .then(response => response.json())
     .then(data => {
@@ -31,11 +36,13 @@ function loadTable(file) {
     });
 }
 
+
 function displayTable(data) {
     const tableContainer = document.getElementById('table-container');
     tableContainer.innerHTML = '';
 
     const table = document.createElement('table');
+    debugger
     data.forEach(row => {
         const tr = document.createElement('tr');
         for (let cell in row) {
